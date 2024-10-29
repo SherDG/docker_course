@@ -21,8 +21,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: dcokerApp
-          environment_name: DcokerApp-env
+          application_name: frontend3
+          environment_name: Frontend3-env
           existing_bucket_name: elasticbeanstalk-eu-north-1-381492158085
           region: eu-north-1
           version_label: ${{ github.sha }}
