@@ -4,6 +4,10 @@ docker-compose down -v
 docker build . -t react-app
 docker run -p 8081:80 react-app
 
+docker-compose -f docker-compose-dev.yml up
+docker-compose -f docker-compose-dev.yml up --build
+docker-compose -f docker-compose-dev.yml down
+
 
 # Getting Started with Create React App
 
