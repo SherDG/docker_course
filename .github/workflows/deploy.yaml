@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # This ensures we get all git history for versioning
+          fetch-depth: 0
 
       - name: Configure Docker
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
@@ -24,7 +24,8 @@ jobs:
       - name: Generate deployment package
         run: |
           echo "Deploying version: ${{ github.sha }}"
-          zip -r deploy.zip . -x '*.git*'
+          # Ensure .ebextensions directory is included
+          zip -r deploy.zip . -x '*.git*' '*.env*'
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v18
@@ -35,7 +36,8 @@ jobs:
           environment_name: Frontend3-env
           existing_bucket_name: elasticbeanstalk-eu-north-1-381492158085
           region: eu-north-1
-          version_label: "frontend-${{ github.sha }}"
+          version_label: "frontend-${{ github.run_number }}-${{ github.sha }}"
           deployment_package: deploy.zip
           wait_for_deployment: true
           wait_for_environment_recovery: 300
+          use_existing_version_if_available: false
