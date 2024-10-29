@@ -8,6 +8,16 @@ docker-compose -f docker-compose-dev.yml up
 docker-compose -f docker-compose-dev.yml up --build
 docker-compose -f docker-compose-dev.yml down
 
+aws elasticbeanstalk create-environment \
+    --application-name frontend1 \
+    --environment-name Frontend1-env \
+    --solution-stack-name "64bit Amazon Linux 2023 v4.3.8 running Docker" \
+    --option-settings \
+        Namespace=aws:autoscaling:asg,OptionName=MinSize,Value=1 \
+        Namespace=aws:autoscaling:asg,OptionName=MaxSize,Value=4 \
+        Namespace=aws:ec2:instances,OptionName=InstanceTypes,Value=t3.small \
+        Namespace=aws:elasticbeanstalk:environment:proxy,OptionName=ProxyServer,Value=nginx
+
 
 # Getting Started with Create React App
 
